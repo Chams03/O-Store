@@ -1,7 +1,37 @@
 <template>
     <Head title="Welcome" />
 
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+    <div class="">
+
+        <!-- Navigation Bar -->
+        <div class="">
+            <nav class="flex justify-between">
+                <div class="w-24 h-20 border-solid">
+                    <img src="" alt="">
+                </div>
+                <div class="">
+                    <form @submit.prevent="submit">
+                        <input class="border-0 border-b-black border-b-2" type="text" pattern="[a-zA-Z]" placeholder="Search">
+                        <SearchIcon class="w-6 h-6" v-on:click="submit" />
+                    </form>
+                </div>
+                <div class="inline-block">
+                    <ul class="">
+                        <li><a href="#">Category</a></li>
+                        <li><a href="#">Category</a></li>
+                        <li><a href="#">Category</a></li>
+                        <li>
+                            <Link :href="route('logout')" v-if="$page.props.auth.user" >
+                                Log out {{ sampleoutput }}
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
             <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="text-sm text-gray-700 underline">
                 Dashboard
@@ -109,7 +139,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <style scoped>
@@ -178,17 +208,32 @@
 
 <script>
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import { SearchIcon } from '@heroicons/vue/outline';
 
 export default {
     components: {
       Head,
       Link,
+      SearchIcon,
     },
     props: {
         canLogin: Boolean,
         canRegister: Boolean,
         laravelVersion: String,
         phpVersion: String,
+        sampleoutput: String,
+    },
+    data() {
+        return {
+            form: this.$inertia.form({
+                search: '',
+            })
+        }
+    },
+    methods: {
+        submit() {
+            this.form.get(this.route('search'))
+        }
     },
 }
 </script>
